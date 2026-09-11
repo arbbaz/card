@@ -29,9 +29,10 @@ export function Wallet({
   const scroller = useRef<HTMLDivElement>(null);
   const [stamp] = useState(() => formatStamp(new Date()));
   const [sheetOpen, setSheetOpen] = useState(false);
-  // Tapping a card flips it to its QR view; only one card shows QR at a time.
+  // Tapping a card opens its QR on a separate screen (not a card-back flip).
   const [qrFor, setQrFor] = useState<string | null>(null);
   const theme: Theme = cards[index].theme;
+  const openCard = qrFor ? cards.find((c) => c.id === qrFor) ?? null : null;
 
   const onScroll = () => {
     const el = scroller.current;
@@ -55,43 +56,51 @@ export function Wallet({
       </div>
 
       <div className={s.center}>
-        <div ref={scroller} className={s.scroller} onScroll={onScroll}>
-          {cards.map((c) => {
-            const showQr = qrFor === c.id;
-            const toggle = () => setQrFor(showQr ? null : c.id);
-            return (
-              <div
-                key={c.id}
-                className={s.slide}
-                role="button"
-                tabIndex={0}
-                aria-label={showQr ? t.wallet.backTo(c.title) : t.wallet.showQr(c.title)}
-                onClick={toggle}
-                onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), toggle())}
-              >
-                {showQr ? (
-                  <QrFace theme={c.theme} payload={c.qr} />
-                ) : (
-                  <Card card={c} stamp={stamp} marquee={t.card.marquee} onAction={() => setSheetOpen(true)} />
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {cards.length > 1 && (
-          <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
-            {cards.map((c, i) => (
-              <button
-                key={c.id}
-                role="tab"
-                aria-selected={i === index}
-                aria-label={c.title}
-                className={`${s.pip} ${i === index ? s.pipActive : ""}`}
-                onClick={() => goTo(i)}
-              />
-            ))}
+        {openCard ? (
+          // Separate QR screen — replaces the card view, not a flip on its back.
+          <div
+            className={s.qrScreen}
+            role="button"
+            tabIndex={0}
+            aria-label={t.wallet.backTo(openCard.title)}
+            onClick={() => setQrFor(null)}
+            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setQrFor(null))}
+          >
+            <QrFace theme={openCard.theme} payload={openCard.qr} />
           </div>
+        ) : (
+          <>
+            <div ref={scroller} className={s.scroller} onScroll={onScroll}>
+              {cards.map((c) => (
+                <div
+                  key={c.id}
+                  className={s.slide}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={t.wallet.showQr(c.title)}
+                  onClick={() => setQrFor(c.id)}
+                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setQrFor(c.id))}
+                >
+                  <Card card={c} stamp={stamp} marquee={t.card.marquee} onAction={() => setSheetOpen(true)} />
+                </div>
+              ))}
+            </div>
+
+            {cards.length > 1 && (
+              <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
+                {cards.map((c, i) => (
+                  <button
+                    key={c.id}
+                    role="tab"
+                    aria-selected={i === index}
+                    aria-label={c.title}
+                    className={`${s.pip} ${i === index ? s.pipActive : ""}`}
+                    onClick={() => goTo(i)}
+                  />
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
 
