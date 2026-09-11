@@ -8,6 +8,7 @@ A mobile wallet-style card UI built with Next.js. It's a design demo, and every 
 - **Card carousel**: swipeable cards with scroll snapping and pagination dots. The background crossfades between two themes as you swipe:
   - **Sky**: a frosted, translucent card on a gradient background with a black tab bar.
   - **Olive**: a flat card with a brown scrolling strip, an orange action button and a floating pill navigation bar.
+- **QR view**: tapping a card opens its QR view and tapping again goes back, so each theme runs passcode → card → QR. The QR is generated in code from fixed demo text ("DEMO … not a document") and can't be replaced. The sky theme adds a countdown and a QR/barcode switch; its barcode is only decorative.
 - **Action sheet**: opened from the card's action button, with a "Lock app" option that returns to the passcode screen in the current theme.
 
 ## Run locally
@@ -27,6 +28,7 @@ src/components/
   PinScreen.tsx  passcode keypad
   Wallet.tsx     carousel, pager, notifications pill, action sheet
   Card.tsx       card layout + scrolling strip
+  QrFace.tsx     QR view per theme (fixed demo payload)
   BottomNav.tsx  tab bar (pill or solid, per theme)
   data.ts        sample card data
   icons.tsx      inline SVG icons

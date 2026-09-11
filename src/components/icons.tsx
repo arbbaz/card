@@ -61,6 +61,21 @@ export const BadgeIcon = (p: P) => (
   </svg>
 );
 
+export const QrIcon = (p: P) => (
+  <svg {...base} width={22} height={22} viewBox="0 0 24 24" strokeWidth={2} {...p}>
+    <rect x="3" y="3" width="7" height="7" rx="1.5" />
+    <rect x="14" y="3" width="7" height="7" rx="1.5" />
+    <rect x="3" y="14" width="7" height="7" rx="1.5" />
+    <path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3" strokeWidth={1.6} />
+  </svg>
+);
+
+export const BarcodeIcon = (p: P) => (
+  <svg {...base} width={22} height={22} viewBox="0 0 24 24" strokeWidth={2} {...p}>
+    <path d="M5 6v12M9.5 6v12M14 6v12M18.5 6v12" />
+  </svg>
+);
+
 /* Olive nav */
 export const PassIcon = (p: P) => (
   <svg width={28} height={28} viewBox="0 0 28 28" fill="currentColor" {...p}>

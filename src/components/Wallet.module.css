@@ -59,6 +59,13 @@
   min-width: 0; /* keep the marquee's intrinsic width from stretching the slide */
   scroll-snap-align: center;
   scroll-snap-stop: always;
+  cursor: pointer;
+  border-radius: 24px;
+}
+
+.slide:focus-visible {
+  outline: 2px solid #111;
+  outline-offset: 3px;
 }
 
 .pager {

@@ -56,7 +56,14 @@ export function Card({ card, stamp, onAction }: { card: SampleCard; stamp: strin
             ))}
           </p>
         </div>
-        <button className={s.action} onClick={onAction} aria-label="Card actions">
+        <button
+          className={s.action}
+          onClick={(e) => {
+            e.stopPropagation(); // don't flip the card to its QR view
+            onAction();
+          }}
+          aria-label="Card actions"
+        >
           {olive ? <PlusIcon /> : <DotsIcon />}
         </button>
       </footer>

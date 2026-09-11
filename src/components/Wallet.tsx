@@ -5,6 +5,7 @@ import { BottomNav } from "./BottomNav";
 import { Card } from "./Card";
 import { cards, type Theme } from "./data";
 import { BellIcon } from "./icons";
+import { QrFace } from "./QrFace";
 import s from "./Wallet.module.css";
 
 function formatStamp(d: Date) {
@@ -24,6 +25,8 @@ export function Wallet({
   const scroller = useRef<HTMLDivElement>(null);
   const [stamp] = useState(() => formatStamp(new Date()));
   const [sheetOpen, setSheetOpen] = useState(false);
+  // Tapping a card flips it to its QR view; only one card shows QR at a time.
+  const [qrFor, setQrFor] = useState<string | null>(null);
   const theme: Theme = cards[index].theme;
 
   const onScroll = () => {
@@ -48,11 +51,27 @@ export function Wallet({
 
       <div className={s.center}>
         <div ref={scroller} className={s.scroller} onScroll={onScroll}>
-          {cards.map((c) => (
-            <div key={c.id} className={s.slide}>
-              <Card card={c} stamp={stamp} onAction={() => setSheetOpen(true)} />
-            </div>
-          ))}
+          {cards.map((c) => {
+            const showQr = qrFor === c.id;
+            const toggle = () => setQrFor(showQr ? null : c.id);
+            return (
+              <div
+                key={c.id}
+                className={s.slide}
+                role="button"
+                tabIndex={0}
+                aria-label={showQr ? `Back to ${c.title}` : `Show ${c.title} QR code`}
+                onClick={toggle}
+                onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), toggle())}
+              >
+                {showQr ? (
+                  <QrFace theme={c.theme} />
+                ) : (
+                  <Card card={c} stamp={stamp} onAction={() => setSheetOpen(true)} />
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <div className={s.pager} role="tablist" aria-label="Cards">
