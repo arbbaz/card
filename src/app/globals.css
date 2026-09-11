@@ -58,11 +58,11 @@ button {
 
 .theme-sky {
   background:
-    radial-gradient(120% 60% at 0% 12%, #f4ea9c 0%, transparent 55%),
-    radial-gradient(90% 60% at 100% 10%, #6fb0dc 0%, transparent 60%),
-    radial-gradient(120% 50% at 0% 60%, #7cc2c0 0%, transparent 60%),
-    radial-gradient(120% 45% at 50% 95%, #cfe79a 0%, transparent 65%),
-    #a9d2dc;
+    radial-gradient(125% 62% at 0% 10%, #ecdf78 0%, transparent 56%),
+    radial-gradient(85% 55% at 100% 8%, #5ea9d3 0%, transparent 60%),
+    radial-gradient(120% 55% at 0% 58%, #6fbc9f 0%, transparent 62%),
+    radial-gradient(130% 55% at 45% 100%, #a7dc78 0%, transparent 66%),
+    #93c4af;
 }
 
 .theme-sky-soft {

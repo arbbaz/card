@@ -8,12 +8,24 @@
 }
 
 .title {
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .dots {
   display: flex;
+}
+
+/* Wrong passcode: brief shake, then the dots clear. */
+.shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
 }
 
 .dot {
@@ -70,7 +82,7 @@
 }
 .olive .title {
   margin-top: 23dvh;
-  font-size: 28px;
+  font-size: 34px;
 }
 .olive .dots {
   gap: 22px;
@@ -91,7 +103,7 @@
 }
 .sky .title {
   margin-top: 12dvh;
-  font-size: 22px;
+  font-size: 26px;
 }
 .sky .dots {
   gap: 7px;

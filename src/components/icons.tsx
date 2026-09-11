@@ -51,14 +51,18 @@ export const DotsIcon = (p: P) => (
   </svg>
 );
 
-/* Neutral placeholder emblem — a simple monogram badge, not a state symbol. */
-export const BadgeIcon = (p: P) => (
-  <svg width={34} height={38} viewBox="0 0 34 38" {...p}>
-    <path d="M3 3h28v17c0 8-6.5 13.5-14 15C9.5 33.5 3 28 3 20z" fill="#111" />
-    <text x="17" y="23" textAnchor="middle" fontSize="13" fontWeight="800" fill="#d6d5c0" fontFamily="system-ui, sans-serif">
-      PP
-    </text>
+/* Decorative handwritten-style signature squiggle (not a real signature). */
+export const SignatureMark = (p: P) => (
+  <svg viewBox="0 0 140 44" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" {...p}>
+    <path d="M4 30c10-22 17-24 19-10s-5 20 1 20c9 0 12-24 20-24 6 0 3 17 11 17 9 0 13-21 24-10 8 8 5 17 16 12 7-3 10-9 21-6" />
+    <path d="M40 39h92" strokeWidth={1.2} opacity={0.45} />
   </svg>
+);
+
+/* Emblem badge shown on the olive card, from a supplied image asset. */
+export const BadgeIcon = () => (
+  // eslint-disable-next-line @next/next/no-img-element -- small static emblem asset in /public
+  <img src="/badge.png" alt="" width={46} height={46} style={{ display: "block", objectFit: "contain" }} />
 );
 
 export const QrIcon = (p: P) => (

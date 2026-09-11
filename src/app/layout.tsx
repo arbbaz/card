@@ -20,7 +20,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={manrope.variable}>
+    <html lang="uk" className={manrope.variable}>
       <body>{children}</body>
     </html>
   );

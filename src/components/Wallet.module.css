@@ -41,11 +41,8 @@
 
 .scroller {
   display: flex;
-  column-gap: 12px;
-  padding: 0 29px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: 29px;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
 }
@@ -57,6 +54,9 @@
 .slide {
   flex: 0 0 100%;
   min-width: 0; /* keep the marquee's intrinsic width from stretching the slide */
+  /* Each slide is a full-width page; the card is inset within it, so adjacent
+     cards never peek (no leftover sliver of the previous card). */
+  padding: 0 29px;
   scroll-snap-align: center;
   scroll-snap-stop: always;
   cursor: pointer;

@@ -1,14 +1,19 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { cards } from "./data";
+import type { Locale } from "../i18n";
+import { ConfigProvider, useConfig } from "./ConfigContext";
+import { LocaleProvider } from "./LocaleContext";
 import { PinScreen } from "./PinScreen";
 import { Wallet } from "./Wallet";
 
-export function App() {
+function WalletApp() {
+  const { cards, passcode } = useConfig();
   const [locked, setLocked] = useState(true);
   const [index, setIndex] = useState(0);
-  const theme = cards[index].theme;
+  // Guard against the stored card list being shorter than the current index.
+  const safeIndex = Math.min(index, cards.length - 1);
+  const theme = cards[safeIndex].theme;
   const unlock = useCallback(() => setLocked(false), []);
 
   return (
@@ -18,10 +23,20 @@ export function App() {
       <div className="bg theme-olive" style={{ opacity: theme === "olive" ? 1 : 0 }} />
 
       {locked ? (
-        <PinScreen theme={theme} onUnlock={unlock} />
+        <PinScreen theme={theme} passcode={passcode} onUnlock={unlock} />
       ) : (
-        <Wallet index={index} onIndexChange={setIndex} onLock={() => setLocked(true)} />
+        <Wallet index={safeIndex} onIndexChange={setIndex} onLock={() => setLocked(true)} />
       )}
     </main>
+  );
+}
+
+export function App({ locale }: { locale: Locale }) {
+  return (
+    <LocaleProvider locale={locale}>
+      <ConfigProvider locale={locale}>
+        <WalletApp />
+      </ConfigProvider>
+    </LocaleProvider>
   );
 }

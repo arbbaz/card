@@ -1,10 +1,11 @@
 import { Avatar } from "./Avatar";
 import type { SampleCard } from "./data";
-import { BadgeIcon, DotsIcon, PlusIcon } from "./icons";
+import { useT } from "./LocaleContext";
+import { BadgeIcon, DotsIcon, PlusIcon, SignatureMark } from "./icons";
 import s from "./Card.module.css";
 
-function Marquee({ stamp }: { stamp: string }) {
-  const text = `Demo card · sample data · updated ${stamp}`;
+function Marquee({ stamp, marquee }: { stamp: string; marquee: (stamp: string) => string }) {
+  const text = marquee(stamp);
   // Two identical halves so the -50% translate loops seamlessly.
   const half = Array.from({ length: 3 }, (_, i) => (
     <span key={i}>
@@ -22,7 +23,18 @@ function Marquee({ stamp }: { stamp: string }) {
   );
 }
 
-export function Card({ card, stamp, onAction }: { card: SampleCard; stamp: string; onAction: () => void }) {
+export function Card({
+  card,
+  stamp,
+  marquee,
+  onAction,
+}: {
+  card: SampleCard;
+  stamp: string;
+  marquee: (stamp: string) => string;
+  onAction: () => void;
+}) {
+  const t = useT();
   const olive = card.theme === "olive";
   return (
     <article className={`${s.card} ${olive ? s.olive : s.sky}`}>
@@ -33,19 +45,22 @@ export function Card({ card, stamp, onAction }: { card: SampleCard; stamp: strin
 
       <div className={s.body}>
         <div className={s.photo}>
-          <Avatar />
+          <Avatar photo={card.photo} />
         </div>
-        <dl className={s.fields}>
-          {card.fields.map((f) => (
-            <div key={f.label}>
-              <dt>{f.label}</dt>
-              <dd>{f.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className={s.info}>
+          <dl className={s.fields}>
+            {card.fields.map((f) => (
+              <div key={f.label}>
+                <dt>{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+          {!olive && <SignatureMark className={s.signature} />}
+        </div>
       </div>
 
-      <Marquee stamp={stamp} />
+      <Marquee stamp={stamp} marquee={marquee} />
 
       <footer className={s.foot}>
         <div>
@@ -62,7 +77,7 @@ export function Card({ card, stamp, onAction }: { card: SampleCard; stamp: strin
             e.stopPropagation(); // don't flip the card to its QR view
             onAction();
           }}
-          aria-label="Card actions"
+          aria-label={t.wallet.actions}
         >
           {olive ? <PlusIcon /> : <DotsIcon />}
         </button>

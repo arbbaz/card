@@ -3,7 +3,9 @@
 import { useRef, useState } from "react";
 import { BottomNav } from "./BottomNav";
 import { Card } from "./Card";
-import { cards, type Theme } from "./data";
+import { useConfig } from "./ConfigContext";
+import { type Theme } from "./data";
+import { useT } from "./LocaleContext";
 import { BellIcon } from "./icons";
 import { QrFace } from "./QrFace";
 import s from "./Wallet.module.css";
@@ -22,6 +24,8 @@ export function Wallet({
   onIndexChange: (i: number) => void;
   onLock: () => void;
 }) {
+  const { cards } = useConfig();
+  const t = useT();
   const scroller = useRef<HTMLDivElement>(null);
   const [stamp] = useState(() => formatStamp(new Date()));
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -33,7 +37,8 @@ export function Wallet({
     const el = scroller.current;
     const slide = el?.firstElementChild as HTMLElement | null;
     if (!el || !slide) return;
-    const step = slide.offsetWidth + parseFloat(getComputedStyle(el).columnGap || "0");
+    // Each slide is a full-width page (column gap may be "normal"/NaN now).
+    const step = slide.offsetWidth + (parseFloat(getComputedStyle(el).columnGap) || 0);
     const i = Math.round(el.scrollLeft / step);
     if (i !== index && i >= 0 && i < cards.length) onIndexChange(i);
   };
@@ -45,7 +50,7 @@ export function Wallet({
     <div className={`${s.wallet} ${theme === "olive" ? s.olive : s.sky}`}>
       <div className={s.top}>
         <button className={s.notify}>
-          Notifications <BellIcon />
+          {t.wallet.notifications} <BellIcon />
         </button>
       </div>
 
@@ -60,21 +65,21 @@ export function Wallet({
                 className={s.slide}
                 role="button"
                 tabIndex={0}
-                aria-label={showQr ? `Back to ${c.title}` : `Show ${c.title} QR code`}
+                aria-label={showQr ? t.wallet.backTo(c.title) : t.wallet.showQr(c.title)}
                 onClick={toggle}
                 onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), toggle())}
               >
                 {showQr ? (
-                  <QrFace theme={c.theme} />
+                  <QrFace theme={c.theme} payload={c.qr} />
                 ) : (
-                  <Card card={c} stamp={stamp} onAction={() => setSheetOpen(true)} />
+                  <Card card={c} stamp={stamp} marquee={t.card.marquee} onAction={() => setSheetOpen(true)} />
                 )}
               </div>
             );
           })}
         </div>
 
-        <div className={s.pager} role="tablist" aria-label="Cards">
+        <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
           {cards.map((c, i) => (
             <button
               key={c.id}
@@ -92,13 +97,13 @@ export function Wallet({
 
       {sheetOpen && (
         <div className={s.backdrop} onClick={() => setSheetOpen(false)}>
-          <div className={s.sheet} onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Card actions">
-            <p className={s.sheetNote}>This is a design demo. All card data is fictional sample data.</p>
+          <div className={s.sheet} onClick={(e) => e.stopPropagation()} role="dialog" aria-label={t.wallet.actions}>
+            <p className={s.sheetNote}>{t.wallet.sheetNote}</p>
             <button className={s.sheetBtn} onClick={onLock}>
-              Lock app
+              {t.wallet.lock}
             </button>
             <button className={s.sheetBtn} onClick={() => setSheetOpen(false)}>
-              Close
+              {t.wallet.close}
             </button>
           </div>
         </div>

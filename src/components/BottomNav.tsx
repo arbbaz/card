@@ -2,6 +2,7 @@
 
 import { useState, type ComponentType, type SVGProps } from "react";
 import type { Theme } from "./data";
+import { useT } from "./LocaleContext";
 import {
   BoltIcon,
   DocsIcon,
@@ -15,21 +16,18 @@ import {
 } from "./icons";
 import s from "./BottomNav.module.css";
 
-type Tab = { label: string; Icon: ComponentType<SVGProps<SVGSVGElement>>; badge?: boolean };
+type Tab = { Icon: ComponentType<SVGProps<SVGSVGElement>>; badge?: boolean };
 
+// Icons per theme; labels come from the active locale's dictionary (t.nav),
+// which is kept in the same order.
 const TABS: Record<Theme, Tab[]> = {
-  olive: [
-    { label: "My Pass", Icon: PassIcon },
-    { label: "Services", Icon: GridIcon },
-    { label: "Jobs", Icon: JobsIcon },
-    { label: "Menu", Icon: MenuIcon },
-  ],
+  olive: [{ Icon: PassIcon }, { Icon: GridIcon }, { Icon: JobsIcon }, { Icon: MenuIcon }],
   sky: [
-    { label: "Feed", Icon: FeedIcon },
-    { label: "Documents", Icon: DocsIcon },
-    { label: "Assistant", Icon: SparkIcon },
-    { label: "Services", Icon: BoltIcon },
-    { label: "Menu", Icon: UserIcon, badge: true },
+    { Icon: FeedIcon },
+    { Icon: DocsIcon },
+    { Icon: SparkIcon },
+    { Icon: BoltIcon },
+    { Icon: UserIcon, badge: true },
   ],
 };
 
@@ -37,13 +35,15 @@ const TABS: Record<Theme, Tab[]> = {
 const HOME: Record<Theme, number> = { olive: 0, sky: 1 };
 
 export function BottomNav({ theme }: { theme: Theme }) {
+  const t = useT();
   const [active, setActive] = useState<Record<Theme, number>>(HOME);
+  const labels = t.nav[theme];
 
   return (
     <nav className={`${s.nav} ${theme === "olive" ? s.olive : s.sky}`}>
-      {TABS[theme].map(({ label, Icon, badge }, i) => (
+      {TABS[theme].map(({ Icon, badge }, i) => (
         <button
-          key={label}
+          key={i}
           className={`${s.tab} ${active[theme] === i ? s.active : ""}`}
           aria-current={active[theme] === i ? "page" : undefined}
           onClick={() => setActive((a) => ({ ...a, [theme]: i }))}
@@ -52,7 +52,7 @@ export function BottomNav({ theme }: { theme: Theme }) {
             <Icon />
             {badge && <i className={s.badge} />}
           </span>
-          {label}
+          {labels[i]}
         </button>
       ))}
     </nav>

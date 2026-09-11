@@ -1,4 +1,6 @@
-// All values here are fictional sample data for the demo.
+// Shared card shape. The actual default (seed) values live per-locale in
+// ../i18n.ts (defaultCards); user overrides are stored via store.ts. All values
+// are fictional sample data for the demo.
 
 export type Theme = "olive" | "sky";
 
@@ -9,25 +11,8 @@ export type SampleCard = {
   status?: string;
   fields: { label: string; value: string }[];
   name: string[];
+  // Text the QR code on the back of the card encodes.
+  qr: string;
+  // Optional portrait as a data URL. When absent, a placeholder is shown.
+  photo?: string;
 };
-
-export const cards: SampleCard[] = [
-  {
-    id: "member",
-    theme: "sky",
-    title: "Sample Card",
-    fields: [
-      { label: "Date of birth:", value: "01.01.2000" },
-      { label: "Number:", value: "000 000 000" },
-    ],
-    name: ["SAMPLE", "ALEX", "PERSON"],
-  },
-  {
-    id: "pass",
-    theme: "olive",
-    title: "Member Pass",
-    status: "Active member",
-    fields: [{ label: "Date of birth:", value: "01.01.2000" }],
-    name: ["SAMPLE", "ALEX", "PERSON"],
-  },
-];

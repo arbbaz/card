@@ -3,14 +3,9 @@
 import QRCode from "qrcode";
 import { useEffect, useState } from "react";
 import type { Theme } from "./data";
+import { useT } from "./LocaleContext";
 import { BarcodeIcon, QrIcon } from "./icons";
 import s from "./QrFace.module.css";
-
-// The QR codes only ever encode this fixed demo text.
-const DEMO_PAYLOAD: Record<Theme, string> = {
-  olive: "DEMO - Pocket Pass sample QR. Fictional test data. Not a document and not valid for any verification.",
-  sky: "DEMO - Sample Card code. Not a document.",
-};
 
 const CODE_TTL = 180; // seconds, sky countdown
 
@@ -42,9 +37,9 @@ const BARS = Array.from({ length: 46 }, (_, i) => 1 + ((i * 7 + 3) % 4)).reduce<
 
 const BARS_WIDTH = BARS[BARS.length - 1].x + BARS[BARS.length - 1].w;
 
-function Barcode() {
+function Barcode({ label }: { label: string }) {
   return (
-    <svg viewBox={`0 0 ${BARS_WIDTH} 70`} className={s.barcode} role="img" aria-label="Demo barcode">
+    <svg viewBox={`0 0 ${BARS_WIDTH} 70`} className={s.barcode} role="img" aria-label={label}>
       {BARS.map(({ x, w }, i) => (i % 2 === 0 ? <rect key={i} x={x} y={0} width={w} height={56} /> : null))}
       <text x={BARS_WIDTH / 2} y="68" textAnchor="middle" fontSize="9" fontFamily="system-ui, sans-serif">
         DEMO 0000 0000
@@ -53,39 +48,43 @@ function Barcode() {
   );
 }
 
-export function QrFace({ theme }: { theme: Theme }) {
-  const svg = useQrSvg(DEMO_PAYLOAD[theme]);
+export function QrFace({ theme, payload }: { theme: Theme; payload: string }) {
+  const t = useT();
+  const svg = useQrSvg(payload);
   const countdown = useCountdown(CODE_TTL);
   const [mode, setMode] = useState<"qr" | "bar">("qr");
 
   if (theme === "olive") {
     return (
       <div className={`${s.face} ${s.olive}`}>
-        <p className={s.caption}>Demo QR · sample data only</p>
+        <p className={s.caption}>{t.qr.oliveCaption}</p>
         <div className={s.qr} dangerouslySetInnerHTML={{ __html: svg }} />
-        <p className={s.stamp}>PROTOTYPE</p>
       </div>
     );
   }
 
   return (
     <div className={`${s.face} ${s.sky}`}>
-      <p className={s.caption}>Demo code refreshes in {countdown}</p>
+      <p className={s.caption}>{t.qr.refresh(countdown)}</p>
       <div className={s.codeArea}>
-        {mode === "qr" ? <div className={s.qr} dangerouslySetInnerHTML={{ __html: svg }} /> : <Barcode />}
+        {mode === "qr" ? (
+          <div className={s.qr} dangerouslySetInnerHTML={{ __html: svg }} />
+        ) : (
+          <Barcode label={t.qr.barcodeAlt} />
+        )}
       </div>
       <div className={s.switch} onClick={(e) => e.stopPropagation()}>
         <button className={s.mode} aria-pressed={mode === "qr"} onClick={() => setMode("qr")}>
           <span className={s.modeIcon}>
             <QrIcon />
           </span>
-          QR code
+          {t.qr.qr}
         </button>
         <button className={s.mode} aria-pressed={mode === "bar"} onClick={() => setMode("bar")}>
           <span className={s.modeIcon}>
             <BarcodeIcon />
           </span>
-          Barcode
+          {t.qr.barcode}
         </button>
       </div>
     </div>
