@@ -16,11 +16,9 @@ function formatStamp(d: Date) {
 }
 
 export function Wallet({
-  index,
   onIndexChange,
   onLock,
 }: {
-  index: number;
   onIndexChange: (i: number) => void;
   onLock: () => void;
 }) {
@@ -29,19 +27,25 @@ export function Wallet({
   const scroller = useRef<HTMLDivElement>(null);
   const [stamp] = useState(() => formatStamp(new Date()));
   const [sheetOpen, setSheetOpen] = useState(false);
-  // Tapping a card opens its QR on a separate screen (not a card-back flip).
-  const [qrFor, setQrFor] = useState<string | null>(null);
-  const theme: Theme = cards[index].theme;
-  const openCard = qrFor ? cards.find((c) => c.id === qrFor) ?? null : null;
+  // Horizontal swipe pages: each card contributes the document screen, then a
+  // separate QR screen (a sibling page, not a flip on the card's back).
+  const [slideIndex, setSlideIndex] = useState(0);
+  const screens = cards.flatMap((c) => [
+    { kind: "card" as const, card: c },
+    { kind: "qr" as const, card: c },
+  ]);
+  const theme: Theme = cards[Math.min(Math.floor(slideIndex / 2), cards.length - 1)].theme;
 
   const onScroll = () => {
     const el = scroller.current;
     const slide = el?.firstElementChild as HTMLElement | null;
     if (!el || !slide) return;
-    // Each slide is a full-width page (column gap may be "normal"/NaN now).
     const step = slide.offsetWidth + (parseFloat(getComputedStyle(el).columnGap) || 0);
     const i = Math.round(el.scrollLeft / step);
-    if (i !== index && i >= 0 && i < cards.length) onIndexChange(i);
+    if (i !== slideIndex && i >= 0 && i < screens.length) {
+      setSlideIndex(i);
+      onIndexChange(Math.floor(i / 2)); // keep the App's card/theme in sync
+    }
   };
 
   const goTo = (i: number) =>
@@ -56,51 +60,36 @@ export function Wallet({
       </div>
 
       <div className={s.center}>
-        {openCard ? (
-          // Separate QR screen — replaces the card view, not a flip on its back.
-          <div
-            className={s.qrScreen}
-            role="button"
-            tabIndex={0}
-            aria-label={t.wallet.backTo(openCard.title)}
-            onClick={() => setQrFor(null)}
-            onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setQrFor(null))}
-          >
-            <QrFace theme={openCard.theme} payload={openCard.qr} />
-          </div>
-        ) : (
-          <>
-            <div ref={scroller} className={s.scroller} onScroll={onScroll}>
-              {cards.map((c) => (
-                <div
-                  key={c.id}
-                  className={s.slide}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={t.wallet.showQr(c.title)}
-                  onClick={() => setQrFor(c.id)}
-                  onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setQrFor(c.id))}
-                >
-                  <Card card={c} stamp={stamp} marquee={t.card.marquee} onAction={() => setSheetOpen(true)} />
-                </div>
-              ))}
+        <div ref={scroller} className={s.scroller} onScroll={onScroll}>
+          {screens.map((sc, i) => (
+            <div key={i} className={s.slide}>
+              {sc.kind === "card" ? (
+                <Card
+                  card={sc.card}
+                  stamp={stamp}
+                  marquee={t.card.marquee}
+                  onAction={() => setSheetOpen(true)}
+                />
+              ) : (
+                <QrFace theme={sc.card.theme} payload={sc.card.qr} />
+              )}
             </div>
+          ))}
+        </div>
 
-            {cards.length > 1 && (
-              <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
-                {cards.map((c, i) => (
-                  <button
-                    key={c.id}
-                    role="tab"
-                    aria-selected={i === index}
-                    aria-label={c.title}
-                    className={`${s.pip} ${i === index ? s.pipActive : ""}`}
-                    onClick={() => goTo(i)}
-                  />
-                ))}
-              </div>
-            )}
-          </>
+        {screens.length > 1 && (
+          <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
+            {screens.map((sc, i) => (
+              <button
+                key={i}
+                role="tab"
+                aria-selected={i === slideIndex}
+                aria-label={sc.kind === "qr" ? t.wallet.showQr(sc.card.title) : sc.card.title}
+                className={`${s.pip} ${i === slideIndex ? s.pipActive : ""}`}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
         )}
       </div>
 

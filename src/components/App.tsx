@@ -25,7 +25,7 @@ function WalletApp() {
       {locked ? (
         <PinScreen theme={theme} passcode={passcode} onUnlock={unlock} />
       ) : (
-        <Wallet index={safeIndex} onIndexChange={setIndex} onLock={() => setLocked(true)} />
+        <Wallet onIndexChange={setIndex} onLock={() => setLocked(true)} />
       )}
     </main>
   );
