@@ -250,15 +250,6 @@ export const defaultCards: Record<Locale, SampleCard[]> = {
       name: ["ТАМЛІАНІ", "ДМИТРО", "ГЕОРГІЙОВИЧ"],
       qr: "ДЕМО - Зразок даних. Не є документом і не дійсний для перевірки.",
     },
-    {
-      id: "pass",
-      theme: "olive",
-      title: "Резерв ID",
-      status: "Військовозобов'язаний",
-      fields: [{ label: "Дата народження:", value: "21.07.1999" }],
-      name: ["ТАМЛІАНІ", "ДМИТРО", "ГЕОРГІЙОВИЧ"],
-      qr: "ДЕМО - Зразок даних. Не є документом і не дійсний для перевірки.",
-    },
   ],
   en: [
     {
@@ -269,15 +260,6 @@ export const defaultCards: Record<Locale, SampleCard[]> = {
         { label: "Date of birth:", value: "21.07.1999" },
         { label: "Number:", value: "011733144" },
       ],
-      name: ["TAMLIANI", "DMYTRO", "HEORHIIOVYCH"],
-      qr: "DEMO - Sample data. Not a document and not valid for any verification.",
-    },
-    {
-      id: "pass",
-      theme: "olive",
-      title: "Reserve ID",
-      status: "Liable for military service",
-      fields: [{ label: "Date of birth:", value: "21.07.1999" }],
       name: ["TAMLIANI", "DMYTRO", "HEORHIIOVYCH"],
       qr: "DEMO - Sample data. Not a document and not valid for any verification.",
     },

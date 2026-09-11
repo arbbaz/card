@@ -79,18 +79,20 @@ export function Wallet({
           })}
         </div>
 
-        <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
-          {cards.map((c, i) => (
-            <button
-              key={c.id}
-              role="tab"
-              aria-selected={i === index}
-              aria-label={c.title}
-              className={`${s.pip} ${i === index ? s.pipActive : ""}`}
-              onClick={() => goTo(i)}
-            />
-          ))}
-        </div>
+        {cards.length > 1 && (
+          <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
+            {cards.map((c, i) => (
+              <button
+                key={c.id}
+                role="tab"
+                aria-selected={i === index}
+                aria-label={c.title}
+                className={`${s.pip} ${i === index ? s.pipActive : ""}`}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <BottomNav theme={theme} />
