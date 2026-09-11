@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# card
 
-## Getting Started
+A mobile wallet-style card UI built with Next.js. It's a design demo, and every name, date and number in it is fictional sample data.
 
-First, run the development server:
+## Screens
+
+- **Passcode**: a 4-digit keypad with dot indicators, a Face ID button and a delete key. Any 4 digits unlock it, and the physical keyboard works too.
+- **Card carousel**: swipeable cards with scroll snapping and pagination dots. The background crossfades between two themes as you swipe:
+  - **Sky**: a frosted, translucent card on a gradient background with a black tab bar.
+  - **Olive**: a flat card with a brown scrolling strip, an orange action button and a floating pill navigation bar.
+- **Action sheet**: opened from the card's action button, with a "Lock app" option that returns to the passcode screen in the current theme.
+
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. The layout targets phone width and is centred in a 430px column on desktop.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/components/
+  App.tsx        lock state + themed backgrounds
+  PinScreen.tsx  passcode keypad
+  Wallet.tsx     carousel, pager, notifications pill, action sheet
+  Card.tsx       card layout + scrolling strip
+  BottomNav.tsx  tab bar (pill or solid, per theme)
+  data.ts        sample card data
+  icons.tsx      inline SVG icons
+```

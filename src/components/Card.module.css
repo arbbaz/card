@@ -1,0 +1,170 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  min-height: min(460px, 60dvh);
+  overflow: hidden;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.title {
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.body {
+  display: flex;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.photo {
+  flex: 0 0 auto;
+  width: 44%;
+  max-width: 150px;
+  aspect-ratio: 140 / 186;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.fields dt {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fields dd {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Scrolling strip, full-bleed across the card */
+.strip {
+  margin-top: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.track {
+  display: inline-flex;
+  animation: scroll 18s linear infinite;
+}
+
+.bullet {
+  margin: 0 10px;
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.status {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+}
+
+.action {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  transition: transform 0.12s;
+}
+
+.action:active {
+  transform: scale(0.9);
+}
+
+/* Olive — flat card, thin border, brown strip, orange button */
+.olive {
+  background: var(--olive-card);
+  border: 1px solid var(--olive-border);
+  border-radius: 9px;
+  padding: 20px 14px 14px;
+}
+.olive .title {
+  font-size: 19px;
+  margin-top: 4px;
+}
+.olive .fields dt {
+  color: var(--muted);
+}
+.olive .strip {
+  margin-inline: -14px;
+  background: var(--olive-strip);
+  color: #f2efe4;
+}
+.olive .foot {
+  margin-top: 30px;
+}
+.olive .action {
+  background: var(--orange);
+}
+
+/* Sky — frosted translucent card, green strip, black button */
+.sky {
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border-radius: 24px;
+  padding: 26px 16px 24px;
+}
+.sky .title {
+  font-size: 23px;
+}
+.sky .strip {
+  margin-inline: -16px;
+  background: #a4e3b0;
+}
+.sky .foot {
+  margin-top: 20px;
+}
+.sky .action {
+  width: 38px;
+  height: 38px;
+  background: #0b0b0b;
+  color: #fff;
+}
