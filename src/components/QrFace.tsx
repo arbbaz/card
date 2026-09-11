@@ -48,17 +48,25 @@ function Barcode({ label }: { label: string }) {
   );
 }
 
-export function QrFace({ theme, payload }: { theme: Theme; payload: string }) {
+export function QrFace({ theme, payload, image }: { theme: Theme; payload: string; image?: string }) {
   const t = useT();
   const svg = useQrSvg(payload);
   const countdown = useCountdown(CODE_TTL);
   const [mode, setMode] = useState<"qr" | "bar">("qr");
 
+  // Uploaded QR image takes precedence over the one generated from the text.
+  const qr = image ? (
+    // eslint-disable-next-line @next/next/no-img-element -- local data URL from admin
+    <img src={image} alt="" className={s.qr} style={{ objectFit: "contain" }} />
+  ) : (
+    <div className={s.qr} dangerouslySetInnerHTML={{ __html: svg }} />
+  );
+
   if (theme === "olive") {
     return (
       <div className={`${s.face} ${s.olive}`}>
         <p className={s.caption}>{t.qr.oliveCaption}</p>
-        <div className={s.qr} dangerouslySetInnerHTML={{ __html: svg }} />
+        {qr}
       </div>
     );
   }
@@ -66,13 +74,7 @@ export function QrFace({ theme, payload }: { theme: Theme; payload: string }) {
   return (
     <div className={`${s.face} ${s.sky}`}>
       <p className={s.caption}>{t.qr.refresh(countdown)}</p>
-      <div className={s.codeArea}>
-        {mode === "qr" ? (
-          <div className={s.qr} dangerouslySetInnerHTML={{ __html: svg }} />
-        ) : (
-          <Barcode label={t.qr.barcodeAlt} />
-        )}
-      </div>
+      <div className={s.codeArea}>{mode === "qr" ? qr : <Barcode label={t.qr.barcodeAlt} />}</div>
       <div className={s.switch} onClick={(e) => e.stopPropagation()}>
         <button className={s.mode} aria-pressed={mode === "qr"} onClick={() => setMode("qr")}>
           <span className={s.modeIcon}>

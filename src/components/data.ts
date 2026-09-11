@@ -11,8 +11,11 @@ export type SampleCard = {
   status?: string;
   fields: { label: string; value: string }[];
   name: string[];
-  // Text the QR code on the back of the card encodes.
+  // Text the QR code encodes (used to generate a QR when no image is uploaded).
   qr: string;
+  // Optional uploaded QR image as a data URL. When set, it is shown instead of
+  // the generated QR.
+  qrImage?: string;
   // Optional portrait as a data URL. When absent, a placeholder is shown.
   photo?: string;
 };

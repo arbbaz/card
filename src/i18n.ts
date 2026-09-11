@@ -59,7 +59,9 @@ export type Dict = {
     statusPlaceholder: string;
     nameLabel: string;
     noPhoto: string;
+    noQr: string;
     upload: string;
+    uploadQr: string;
     remove: string;
     detailFields: string;
     addField: string;
@@ -136,7 +138,9 @@ export const dictionaries: Record<Locale, Dict> = {
       statusPlaceholder: "напр. Активний учасник",
       nameLabel: "Ім'я (по рядку)",
       noPhoto: "Немає фото",
+      noQr: "Немає QR",
       upload: "Завантажити фото",
+      uploadQr: "Завантажити QR-код",
       remove: "Видалити",
       detailFields: "Поля деталей",
       addField: "+ Додати поле",
@@ -211,7 +215,9 @@ export const dictionaries: Record<Locale, Dict> = {
       statusPlaceholder: "e.g. Active member",
       nameLabel: "Name (one line each)",
       noPhoto: "No photo",
+      noQr: "No QR",
       upload: "Upload picture",
+      uploadQr: "Upload QR code",
       remove: "Remove",
       detailFields: "Detail fields",
       addField: "+ Add field",

@@ -10,6 +10,9 @@ import { BellIcon } from "./icons";
 import { QrFace } from "./QrFace";
 import s from "./Wallet.module.css";
 
+// Show a fixed 3-dot pager; screens beyond the app's real pages are decorative.
+const PAGER_DOTS = 3;
+
 function formatStamp(d: Date) {
   const p = (n: number) => String(n).padStart(2, "0");
   return `${p(d.getHours())}:${p(d.getMinutes())} | ${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()}`;
@@ -71,7 +74,7 @@ export function Wallet({
                   onAction={() => setSheetOpen(true)}
                 />
               ) : (
-                <QrFace theme={sc.card.theme} payload={sc.card.qr} />
+                <QrFace theme={sc.card.theme} payload={sc.card.qr} image={sc.card.qrImage} />
               )}
             </div>
           ))}
@@ -79,16 +82,20 @@ export function Wallet({
 
         {screens.length > 1 && (
           <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
-            {screens.map((sc, i) => (
-              <button
-                key={i}
-                role="tab"
-                aria-selected={i === slideIndex}
-                aria-label={sc.kind === "qr" ? t.wallet.showQr(sc.card.title) : sc.card.title}
-                className={`${s.pip} ${i === slideIndex ? s.pipActive : ""}`}
-                onClick={() => goTo(i)}
-              />
-            ))}
+            {Array.from({ length: PAGER_DOTS }, (_, i) => {
+              const sc = screens[i];
+              return (
+                <button
+                  key={i}
+                  role="tab"
+                  aria-selected={i === slideIndex}
+                  aria-hidden={sc ? undefined : true}
+                  aria-label={sc ? (sc.kind === "qr" ? t.wallet.showQr(sc.card.title) : sc.card.title) : undefined}
+                  className={`${s.pip} ${i === slideIndex ? s.pipActive : ""}`}
+                  onClick={() => sc && goTo(i)}
+                />
+              );
+            })}
           </div>
         )}
       </div>

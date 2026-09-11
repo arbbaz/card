@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRef, useState, useSyncExternalStore } from "react";
 import { getDict, type Locale } from "../i18n";
-import type { SampleCard, Theme } from "./data";
+import type { SampleCard } from "./data";
 import { loadConfig, makeDefaultConfig, PIN_LENGTH, resetConfig, saveConfig, type Config } from "./store";
 import s from "../app/admin/admin.module.css";
 
@@ -71,6 +71,17 @@ export function AdminPanel({ locale }: { locale: Locale }) {
     try {
       const url = await fileToDataUrl(file);
       patchCard(i, { photo: url });
+      flash(t.toastPhoto);
+    } catch {
+      flash(t.toastPhotoErr);
+    }
+  };
+
+  const onQr = async (i: number, file: File | undefined) => {
+    if (!file) return;
+    try {
+      const url = await fileToDataUrl(file, 600);
+      patchCard(i, { qrImage: url });
       flash(t.toastPhoto);
     } catch {
       flash(t.toastPhotoErr);
@@ -146,28 +157,6 @@ export function AdminPanel({ locale }: { locale: Locale }) {
             </label>
 
             <label className={s.field}>
-              <span>{t.theme}</span>
-              <select
-                className={s.input}
-                value={card.theme}
-                onChange={(e) => patchCard(i, { theme: e.target.value as Theme })}
-              >
-                <option value="sky">{t.themeSky}</option>
-                <option value="olive">{t.themeOlive}</option>
-              </select>
-            </label>
-
-            <label className={s.field}>
-              <span>{t.statusOptional}</span>
-              <input
-                className={s.input}
-                value={card.status ?? ""}
-                placeholder={t.statusPlaceholder}
-                onChange={(e) => patchCard(i, { status: e.target.value || undefined })}
-              />
-            </label>
-
-            <label className={s.field}>
               <span>{t.nameLabel}</span>
               <textarea
                 className={s.input}
@@ -212,14 +201,6 @@ export function AdminPanel({ locale }: { locale: Locale }) {
           <div className={s.fieldsBlock}>
             <div className={s.fieldsHead}>
               <span>{t.detailFields}</span>
-              <button
-                className={s.ghost}
-                onClick={() =>
-                  patchCard(i, { fields: [...card.fields, { label: "", value: "" }] })
-                }
-              >
-                {t.addField}
-              </button>
             </div>
             {card.fields.map((f, fi) => (
               <div key={fi} className={s.fieldRow}>
@@ -270,6 +251,34 @@ export function AdminPanel({ locale }: { locale: Locale }) {
               onChange={(e) => patchCard(i, { qr: e.target.value })}
             />
           </label>
+
+          {/* Upload a QR image (shown instead of the generated one) */}
+          <div className={s.photoRow}>
+            <div className={s.preview}>
+              {card.qrImage ? (
+                // eslint-disable-next-line @next/next/no-img-element -- local data URL preview
+                <img src={card.qrImage} alt="" />
+              ) : (
+                <span className={s.previewEmpty}>{t.noQr}</span>
+              )}
+            </div>
+            <div className={s.photoActions}>
+              <label className={s.fileBtn}>
+                {t.uploadQr}
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={(e) => onQr(i, e.target.files?.[0])}
+                />
+              </label>
+              {card.qrImage && (
+                <button className={s.ghost} onClick={() => patchCard(i, { qrImage: undefined })}>
+                  {t.remove}
+                </button>
+              )}
+            </div>
+          </div>
         </section>
       ))}
 
