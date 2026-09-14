@@ -59,12 +59,23 @@ export const SignatureMark = (p: P) => (
   </svg>
 );
 
-/* Emblem badge shown on the olive card (inline vector). */
+/* Emblem badge shown on the olive card: a shield with the trident cut out
+   (inline vector, ported from the reference app). */
 export const BadgeIcon = () => (
-  <svg width={44} height={44} viewBox="130 92 276 296" fill="none" aria-hidden="true">
+  <svg width={44} height={48} viewBox="150 110 220 270" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <mask id="cutout-maincard-trident">
+        <rect width="500" height="500" fill="white" />
+        <path
+          d="M 185.73 152.581 L 187.247 294.574 L 243.073 294.877 C 236.88 293.116 258.149 326.866 258.547 326.431 C 263.181 326.314 282.524 292.07 278.268 294.27 L 332.274 294.27 L 332.881 153.492 C 288.549 165.834 299.596 252.913 305.271 262.413 L 276.144 263.323 C 271.258 246.621 296.539 151.643 259.761 128.006 C 224.936 151.839 247.1 235.167 243.984 261.806 L 215.767 262.413 C 223.188 225.833 223.104 160.43 185.73 152.581 Z"
+          fill="black"
+        />
+      </mask>
+    </defs>
     <path
       d="M 150.232 111.669 C 138.152 279.436 165.736 328.354 259.154 368.348 C 344.099 328.358 385.598 279.144 368.986 111.669 L 150.232 111.669 Z"
       fill="#111"
+      mask="url(#cutout-maincard-trident)"
     />
   </svg>
 );
