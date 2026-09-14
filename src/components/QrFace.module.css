@@ -17,7 +17,7 @@
 
 .caption {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   text-align: center;
 }
 
@@ -40,7 +40,7 @@
 }
 .olive .caption {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
 }
 .olive .qr {
   margin-top: 26px;
@@ -88,7 +88,7 @@
   align-items: center;
   gap: 10px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .modeIcon {

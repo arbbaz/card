@@ -16,8 +16,8 @@
 }
 
 .title {
-  font-weight: 700;
-  line-height: 1.15;
+  font-weight: 400;
+  line-height: 1.2;
   letter-spacing: -0.01em;
 }
 
@@ -60,13 +60,13 @@
 }
 
 .fields dt {
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .fields dd {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
 }
 
@@ -75,8 +75,8 @@
   margin-top: auto;
   overflow: hidden;
   white-space: nowrap;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 300;
   line-height: 22px;
 }
 
@@ -103,8 +103,8 @@
 }
 
 .status {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 400;
   color: var(--muted);
   margin-bottom: 12px;
 }
@@ -112,9 +112,9 @@
 .name {
   display: flex;
   flex-direction: column;
-  font-size: 21px;
-  font-weight: 700;
-  line-height: 1.12;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.2;
   letter-spacing: 0.01em;
 }
 
@@ -140,8 +140,8 @@
   padding: 20px 14px 14px;
 }
 .olive .title {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 400;
   margin-top: 4px;
 }
 .olive .fields dt {
@@ -168,8 +168,8 @@
   padding: 26px 16px 24px;
 }
 .sky .title {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 400;
 }
 .sky .strip {
   margin-inline: -16px;

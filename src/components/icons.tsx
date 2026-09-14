@@ -59,10 +59,14 @@ export const SignatureMark = (p: P) => (
   </svg>
 );
 
-/* Emblem badge shown on the olive card, from a supplied image asset. */
+/* Emblem badge shown on the olive card (inline vector). */
 export const BadgeIcon = () => (
-  // eslint-disable-next-line @next/next/no-img-element -- small static emblem asset in /public
-  <img src="/badge.png" alt="" width={46} height={46} style={{ display: "block", objectFit: "contain" }} />
+  <svg width={44} height={44} viewBox="130 92 276 296" fill="none" aria-hidden="true">
+    <path
+      d="M 150.232 111.669 C 138.152 279.436 165.736 328.354 259.154 368.348 C 344.099 328.358 385.598 279.144 368.986 111.669 L 150.232 111.669 Z"
+      fill="#111"
+    />
+  </svg>
 );
 
 export const QrIcon = (p: P) => (
