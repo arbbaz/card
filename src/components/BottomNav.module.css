@@ -51,8 +51,8 @@
   transition: background 0.2s;
 }
 .olive .tab svg {
-  width: 22px;
-  height: 22px;
+  width: 27px;
+  height: 27px;
 }
 .olive .active {
   background: #e2e2de;
