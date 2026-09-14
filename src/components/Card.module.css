@@ -30,9 +30,9 @@
 .photo {
   flex: 0 0 auto;
   width: 44%;
-  max-width: 150px;
+  max-width: 165px;
   aspect-ratio: 140 / 186;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
   background: #fff;
 }
@@ -136,7 +136,7 @@
 .olive {
   background: var(--olive-card);
   border: 1px solid var(--olive-border);
-  border-radius: 9px;
+  border-radius: 20px;
   padding: 20px 14px 14px;
 }
 .olive .title {

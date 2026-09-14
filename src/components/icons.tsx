@@ -97,9 +97,10 @@ export const BarcodeIcon = (p: P) => (
 
 /* Olive nav */
 export const PassIcon = (p: P) => (
-  <svg width={28} height={28} viewBox="0 0 28 28" fill="currentColor" {...p}>
-    <rect x="4" y="2" width="20" height="24" rx="2.5" />
-    <rect x="7" y="17" width="14" height="2" fill="#e4e4e0" />
+  <svg width={30} height={30} viewBox="0 0 64 64" fill="currentColor" {...p}>
+    <rect x="12" y="8" width="40" height="48" rx="3" ry="3" />
+    <rect x="16" y="36" width="32" height="4" fill="#fff" />
+    <rect x="16" y="44" width="32" height="4" fill="#fff" />
   </svg>
 );
 export const GridIcon = (p: P) => (

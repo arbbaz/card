@@ -56,7 +56,7 @@
   min-width: 0; /* keep the marquee's intrinsic width from stretching the slide */
   /* Each slide is a full-width page; the card is inset within it, so adjacent
      cards never peek (no leftover sliver of the previous card). */
-  padding: 0 29px;
+  padding: 0 18px;
   scroll-snap-align: center;
   scroll-snap-stop: always;
   cursor: pointer;

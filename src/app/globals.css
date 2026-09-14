@@ -43,12 +43,12 @@
 
 :root {
   --font-sans: "e-Ukraine";
-  --olive-bg: #e0dfcc;
-  --olive-card: #d6d5c0;
+  --olive-bg: #e2dfce;
+  --olive-card: #d7d3c0;
   --olive-border: #9c9b8b;
-  --olive-strip: #6b4a1e;
-  --orange: #f0923a;
-  --ink: #111;
+  --olive-strip: #694614;
+  --orange: #ff9000;
+  --ink: #000000;
   --muted: #5d5d55;
   --key: #fbfcfa;
 }

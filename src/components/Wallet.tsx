@@ -10,9 +10,6 @@ import { BellIcon } from "./icons";
 import { QrFace } from "./QrFace";
 import s from "./Wallet.module.css";
 
-// Show a fixed 3-dot pager; dots beyond the app's real cards are decorative.
-const PAGER_DOTS = 3;
-
 function formatStamp(d: Date) {
   const p = (n: number) => String(n).padStart(2, "0");
   return `${p(d.getHours())}:${p(d.getMinutes())} | ${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()}`;
@@ -47,9 +44,6 @@ export function Wallet({
     }
   };
 
-  const goTo = (i: number) =>
-    scroller.current?.children[i]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-
   return (
     <div className={`${s.wallet} ${theme === "olive" ? s.olive : s.sky}`}>
       <div className={s.top}>
@@ -79,23 +73,6 @@ export function Wallet({
                   <Card card={c} stamp={stamp} marquee={t.card.marquee} onAction={() => setSheetOpen(true)} />
                 )}
               </div>
-            );
-          })}
-        </div>
-
-        <div className={s.pager} role="tablist" aria-label={t.wallet.cards}>
-          {Array.from({ length: PAGER_DOTS }, (_, i) => {
-            const c = cards[i];
-            return (
-              <button
-                key={i}
-                role="tab"
-                aria-selected={i === index}
-                aria-hidden={c ? undefined : true}
-                aria-label={c ? c.title : undefined}
-                className={`${s.pip} ${i === index ? s.pipActive : ""}`}
-                onClick={() => c && goTo(i)}
-              />
             );
           })}
         </div>
